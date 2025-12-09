@@ -1,9 +1,12 @@
-﻿using TestProject.Console;
+﻿using System.Text;
+using TestProject.Console;
 
 namespace TestProject.Tests;
 
 public class CalculatorTests
 {
+    private const int NUM_OF_ONES = 1000;
+
     [Theory]
     [MemberData(nameof(Calculate_WithInputs_ReturnsExpected_TestData))]
     public void Calculate_WithInputs_ReturnsExpected(string input, int expectedOutput)
@@ -22,5 +25,19 @@ public class CalculatorTests
             { "-1,-2", -3 },
             { int.MinValue.ToString(), int.MinValue },
             { int.MaxValue.ToString(), int.MaxValue },
+            { CreateStringForMultipleInputsContainingOnes(NUM_OF_ONES), NUM_OF_ONES }
         };
+
+    private static string CreateStringForMultipleInputsContainingOnes(int nums)
+    {
+        var stringBuilder = new StringBuilder();
+        stringBuilder.Append('1');
+
+        for (var i = 1; i < 1000; i++)
+        {
+            stringBuilder.Append(",1");
+        }
+
+        return stringBuilder.ToString();
+    }
 }
