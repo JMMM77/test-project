@@ -22,6 +22,7 @@ public static class Calculator
 
         var stringBuilder = new StringBuilder();
         var numbersList = new List<int>();
+        var negativeNumbers = new List<int>();
 
         for (var i = startIndex; i < numbers.Length; i++)
         {
@@ -31,7 +32,15 @@ public static class Calculator
             {
                 var numberToAdd = int.Parse(stringBuilder.ToString());
 
-                numbersList.Add(numberToAdd);
+                if (numberToAdd >= 0)
+                {
+                    numbersList.Add(numberToAdd);
+                }
+                else
+                {
+                    negativeNumbers.Add(numberToAdd);
+                }
+
                 stringBuilder = new StringBuilder();
 
                 continue;
@@ -40,8 +49,19 @@ public static class Calculator
             stringBuilder.Append(ch);
         }
 
-        numbersList.Add(int.Parse(stringBuilder.ToString()));
+        var lastNumberToAdd = int.Parse(stringBuilder.ToString());
 
-        return numbersList.Sum();
+        if (lastNumberToAdd >= 0)
+        {
+            numbersList.Add(lastNumberToAdd);
+        }
+        else
+        {
+            negativeNumbers.Add(lastNumberToAdd);
+        }
+
+        return negativeNumbers.Count == 0
+            ? numbersList.Sum()
+            : throw new Exception(string.Join(",", negativeNumbers));
     }
 }
