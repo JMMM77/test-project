@@ -25,7 +25,14 @@ public class CalculatorTests
             { "-1,-2", -3 },
             { int.MinValue.ToString(), int.MinValue },
             { int.MaxValue.ToString(), int.MaxValue },
-            { CreateStringForMultipleInputsContainingOnes(NUM_OF_ONES), NUM_OF_ONES }
+            { CreateStringForMultipleInputsContainingOnes(NUM_OF_ONES), NUM_OF_ONES },
+            { "1|2", 3 },
+            { "-1|-2", -3 },
+            { "1|-2", -1 },
+            { "1,2|3", 6 },
+            { "1|2,3", 6 },
+            { "-1,-2|-3", -6 },
+            { "-1|-2,-3", -6 },
         };
 
     private static string CreateStringForMultipleInputsContainingOnes(int nums)
