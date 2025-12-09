@@ -16,32 +16,45 @@ public class CalculatorTests
         Assert.Equal(expectedOutput, actualResult);
     }
 
+    [Theory]
+    [MemberData(nameof(Calculate_WithNegativeInputs_ThrowsException_TestData))]
+    public void Calculate_WithNegativeInputs_ThrowsException(string input, string expectedErrorMessage)
+    {
+        var returnedException = Assert.Throws<Exception>(() => Calculator.Calculate(input));
+
+        Assert.Equal(returnedException.Message, expectedErrorMessage);
+    }
+
     public static TheoryData<string, int> Calculate_WithInputs_ReturnsExpected_TestData
         => new() {
             { "", 0 },
             { "0", 0 },
             { "1", 1 },
             { "1,2", 3 },
-            { "-1", -1 },
-            { "-1,-2", -3 },
-            { "1,-2", -1 },
-            { "-1,2", 1 },
-            { int.MinValue.ToString(), int.MinValue },
             { int.MaxValue.ToString(), int.MaxValue },
             { CreateStringForMultipleInputsContainingOnes(NUM_OF_ONES), NUM_OF_ONES },
             { "1|2", 3 },
-            { "-1|-2", -3 },
-            { "1|-2", -1 },
             { "1,2|3", 6 },
             { "1|2,3", 6 },
-            { "-1,-2|-3", -6 },
-            { "-1|-2,-3", -6 },
             { "//,\n1,2,3", 6 },
             { "//|\n1|2|3", 6 },
             { "//;\n1;2;3", 6 },
             { "//'\n1'2'3", 6 },
-            { "//;\n-1;-2;-3", -6 },
-            { "//;\n1;-2;-3", -4 },
+        };
+
+    public static TheoryData<string, string> Calculate_WithNegativeInputs_ThrowsException_TestData
+        => new() {
+            { "-1", "-1" },
+            { "-1,-2", "-1,-2" },
+            { "1,-2", "-2" },
+            { "-1,2", "-1" },
+            { int.MinValue.ToString(), int.MinValue.ToString() },
+            { "-1|-2", "-1,-2" },
+            { "1|-2", "-2" },
+            { "-1,-2|-3", "-1,-2,-3" },
+            { "-1|-2,-3", "-1,-2,-3" },
+            { "//;\n-1;-2;-3", "-1,-2,-3" },
+            { "//;\n1;-2;-3", "-2,-3" },
         };
 
     private static string CreateStringForMultipleInputsContainingOnes(int nums)
