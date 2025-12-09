@@ -36,6 +36,12 @@ public class CalculatorTests
             { "1|2,3", 6 },
             { "-1,-2|-3", -6 },
             { "-1|-2,-3", -6 },
+            { "//,\n1,2,3", 6 },
+            { "//|\n1|2|3", 6 },
+            { "//;\n1;2;3", 6 },
+            { "//'\n1'2'3", 6 },
+            { "//;\n-1;-2;-3", 6 },
+            { "//;\n1;-2;-3", -4 },
         };
 
     private static string CreateStringForMultipleInputsContainingOnes(int nums)
