@@ -40,6 +40,12 @@ public class CalculatorTests
             { "//|\n1|2|3", 6 },
             { "//;\n1;2;3", 6 },
             { "//'\n1'2'3", 6 },
+            { "*1", 1 },
+            { "*1,2", 2 },
+            { $"*{CreateStringForMultipleInputsContainingOnes(NUM_OF_ONES)}", 1 },
+            { "*1|2", 2 },
+            { "*1|2,3", 6 },
+            { "*//,\n1,2,3", 6 },
         };
 
     public static TheoryData<string, string> Calculate_WithNegativeInputs_ThrowsException_TestData
@@ -55,6 +61,11 @@ public class CalculatorTests
             { "-1|-2,-3", "-1,-2,-3" },
             { "//;\n-1;-2;-3", "-1,-2,-3" },
             { "//;\n1;-2;-3", "-2,-3" },
+            { "*-1", "-1" },
+            { "*-1,-2", "-1,-2" },
+            { "*-1|-2", "-1,-2" },
+            { "*-1|-2,-3", "-1,-2,-3" },
+            { "*//;\n-1;-2;-3", "-1,-2,-3" },
         };
 
     private static string CreateStringForMultipleInputsContainingOnes(int nums)
