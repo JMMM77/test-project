@@ -19,10 +19,13 @@ public class CalculatorTests
     public static TheoryData<string, int> Calculate_WithInputs_ReturnsExpected_TestData
         => new() {
             { "", 0 },
+            { "0", 0 },
             { "1", 1 },
             { "1,2", 3 },
             { "-1", -1 },
             { "-1,-2", -3 },
+            { "1,-2", -1 },
+            { "-1,2", 1 },
             { int.MinValue.ToString(), int.MinValue },
             { int.MaxValue.ToString(), int.MaxValue },
             { CreateStringForMultipleInputsContainingOnes(NUM_OF_ONES), NUM_OF_ONES },
