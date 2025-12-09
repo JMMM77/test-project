@@ -11,12 +11,23 @@ public static class Calculator
             return 0;
         }
 
+        var startIndex = 0;
+        char[] delimiters = [',', '|'];
+
+        if (numbers.StartsWith("//"))
+        {
+            delimiters = [numbers[2]];
+            startIndex = 3;
+        }
+
         var stringBuilder = new StringBuilder();
         var numbersList = new List<int>();
 
-        foreach (var ch in numbers)
+        for (var i = startIndex; i < numbers.Length; i++)
         {
-            if (ch is ',' or '|')
+            var ch = numbers[i];
+
+            if (delimiters.Contains(ch))
             {
                 var numberToAdd = int.Parse(stringBuilder.ToString());
 
