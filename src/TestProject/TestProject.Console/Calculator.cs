@@ -1,22 +1,36 @@
-﻿namespace TestProject.Console;
+﻿using System.Text;
+
+namespace TestProject.Console;
 
 public static class Calculator
 {
     public static int Calculate(string numbers)
     {
-        if (numbers == "")
+        if (string.IsNullOrEmpty(numbers))
         {
             return 0;
         }
 
-        var splitNumbers = numbers.Split(',');
-        var result = 0;
+        var stringBuilder = new StringBuilder();
+        var numbersList = new List<int>();
 
-        foreach (var splitNumber in splitNumbers)
+        foreach (var ch in numbers)
         {
-            result += int.Parse(splitNumber);
+            if (ch is ',' or '|')
+            {
+                var numberToAdd = int.Parse(stringBuilder.ToString());
+
+                numbersList.Add(numberToAdd);
+                stringBuilder = new StringBuilder();
+
+                continue;
+            }
+
+            stringBuilder.Append(ch);
         }
 
-        return result;
+        numbersList.Add(int.Parse(stringBuilder.ToString()));
+
+        return numbersList.Sum();
     }
 }
